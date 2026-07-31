@@ -1,4 +1,4 @@
-# MDBrowser
+# Markdown-Browser
 
 I wanted to read my Markdown notebooks in a web browser.  I typically use VS Code and view using Markdown-preview-enhanced extension.
 This extension uses Crossnote as the Markdown renderer, and for which I have provided a few markdown and style enhancements.
@@ -9,7 +9,7 @@ to browse the files.
 ## Start it...
 
 ```bash
-npm run -- {path to MD files} [Port]
+npm start -- {path to MD files} [Port]
 ```
 
 Default port is 3000
