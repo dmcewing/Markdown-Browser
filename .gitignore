@@ -1,0 +1,26 @@
+.DS_Store
+.idea
+coverage
+node_modules
+out
+test.js
+test.mjs
+.direnv
+.codegraph
+tsconfig.tsbuildinfo
+pnpm-debug.log
+.mume
+mume
+.crossnote
+crossnote
+styles/**/*.css
+!styles/markdown-it-admonition.css
+!styles/markdown-it-callout.css
+!styles/twemoji.css
+docs
+
+# Playwright browser-test artifacts
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache

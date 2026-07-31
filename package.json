@@ -1,0 +1,11 @@
+{
+  "name": "mdbrowser",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "crossnote": "^0.9.31"
+  }
+}
