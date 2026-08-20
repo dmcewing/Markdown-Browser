@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 const { Notebook } = require('crossnote');
 
 const HOST = '127.0.0.1';
@@ -479,8 +480,17 @@ async function main() {
   });
 
   server.listen(port, HOST, () => {
+    const url = `http://${HOST}:${port}`;
     console.log(`Notebook: ${notebookPath}`);
-    console.log(`Listening: http://${HOST}:${port}`);
+    console.log(`Listening: ${url}`);
+    
+    // Open browser
+    const command = process.platform === 'win32' ? `start ${url}` : process.platform === 'darwin' ? `open ${url}` : `xdg-open ${url}`;
+    exec(command, (err) => {
+      if (err) {
+        console.warn(`Failed to open browser: ${err.message}`);
+      }
+    });
   });
 
   const shutdown = (signal) => {
