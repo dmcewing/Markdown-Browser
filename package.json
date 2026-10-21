@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "crossnote": "^0.9.31"
+    "crossnote": "^0.9.42"
   },
   "allowScripts": {
     "sharp@0.34.5": true
