@@ -47,17 +47,33 @@ function safeResolve(root, relativePath) {
 
 async function collectMarkdownFiles(rootDir) {
   const output = [];
+  const visitedRealDirs = new Set();
 
   async function walk(currentDir) {
     const entries = await fs.promises.readdir(currentDir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = path.join(currentDir, entry.name);
-      if (entry.isDirectory()) {
-        if (shouldHideFolder(entry.name)) {
-          continue;
+      let isDir = entry.isDirectory();
+      let isFile = entry.isFile();
+
+      if (entry.isSymbolicLink()) {
+        const targetStat = await fs.promises.stat(fullPath).catch(() => null);
+        if (!targetStat) continue; // broken symlink
+        isDir = targetStat.isDirectory();
+        isFile = targetStat.isFile();
+      }
+
+      if (isDir) {
+        if (shouldHideFolder(entry.name)) continue;
+
+        if (entry.isSymbolicLink()) {
+          const realDir = await fs.promises.realpath(fullPath);
+          if (visitedRealDirs.has(realDir)) continue; // prevent symlink cycles
+          visitedRealDirs.add(realDir);
         }
+
         await walk(fullPath);
-      } else if (isMarkdownFile(entry.name)) {
+      } else if (isFile && isMarkdownFile(entry.name)) {
         const rel = path.relative(rootDir, fullPath);
         output.push(normalizeNotePath(rel));
       }
